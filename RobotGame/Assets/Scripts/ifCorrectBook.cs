@@ -11,6 +11,7 @@ public class ifCorrectBook : MonoBehaviour
     //static bool aBookIsOn = false; //this is dealt with the event part in the socket in unity
     public bool correctTag = false;
     public Collider theBook;
+    private bool addedAOneYet = false;
 
     
 
@@ -51,17 +52,25 @@ public class ifCorrectBook : MonoBehaviour
     private void correctBook()
     {
 
-        if((correctTag)&&(aBookIsOn))
+        if((correctTag)&&(aBookIsOn)&&(!addedAOneYet))
         {
             this.GetComponent<allBooksOk>().AllBooksAreGood += 1;
+            addedAOneYet = true;
             Debug.Log("1ere sortie");
         }
-        if ((correctTag) && (m_aBookIsOn))
+        if ((correctTag) && (m_aBookIsOn) && (!addedAOneYet))
         {
             this.GetComponent<allBooksOk>().AllBooksAreGood += 1;
+            addedAOneYet = true;
             Debug.Log("1ere sortie");
         }
-
+        if ((addedAOneYet)&& (!correctTag) && (!m_aBookIsOn)) //this happen only if the book is removed
+        {
+            this.GetComponent<allBooksOk>().AllBooksAreGood -= 1;
+            addedAOneYet = false;
+        }
     }
+
+
 
 }
