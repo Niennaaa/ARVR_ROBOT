@@ -9,6 +9,8 @@ TagManager:
   - RedBook
   - YellowBook
   - GreenBook
+  - Stain
+  - Kyle
   layers:
   - Default
   - TransparentFX
