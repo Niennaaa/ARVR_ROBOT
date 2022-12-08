@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - BlackBook
+  - BlueBook
+  - RedBook
+  - YellowBook
+  - GreenBook
+  - Stain
+  - Kyle
   layers:
   - Default
   - TransparentFX
