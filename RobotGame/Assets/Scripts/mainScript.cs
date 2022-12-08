@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class mainScript : MonoBehaviour
 {
+    public bool gameHasStarted = false;
     public bool level1 = true; //the stains
     public bool level2 = false;//the bookshelves
     public bool level3 = false;//hat level
@@ -15,17 +16,36 @@ public class mainScript : MonoBehaviour
     public GameObject desiredHat;
     public GameObject cake;
 
+    public AudioSource voice1;
+    public AudioSource voice2;
+    public AudioSource voice3;
+    public AudioSource voice4;
+    public AudioSource voice5;
+    private bool dialog1Said = false;
+    private bool dialog2Said = false;
+    private bool dialog3Said = false;
+    private bool dialog4Said = false;
+    private bool dialog5Said = false;
+
+    public Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        voice1.GetComponent<AudioSource>();
+        voice2.GetComponent<AudioSource>();
+        voice3.GetComponent<AudioSource>();
+        voice4.GetComponent<AudioSource>();
+        voice5.GetComponent<AudioSource>();
+        anim = gameObject.GetComponent<Animator>();
+        Debug.Log(anim);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (level1)
+
+        if ((level1)&&(gameHasStarted))
         {
             firstLevel();
         }
@@ -46,10 +66,12 @@ public class mainScript : MonoBehaviour
 
     public void firstLevel()
     {
-        //launch talking animation
-        //lauch audio
-        //lauch UI explaining the level
-        //at the end of audio, stop talking animation
+        //launch UI
+        if (!dialog1Said)
+        {
+            StartCoroutine(Talking(voice1));//launch audio + animation
+            dialog1Said = true;
+        }
 
         stain = GameObject.FindWithTag("Stain");
         if (stain == null) //when all the stains are found, level2 begins and level1 ends
@@ -62,6 +84,11 @@ public class mainScript : MonoBehaviour
 
     public void secondLevel()
     {
+        if (!dialog2Said)
+        {
+            StartCoroutine(Talking(voice2));//launch audio + animation
+            dialog2Said = true;
+        }
         //launch talking animation
         //lauch audio
         //lauch UI explaining the level
@@ -69,6 +96,7 @@ public class mainScript : MonoBehaviour
 
         if (bookshelf1.GetComponent<allBooksOk>().levelDone)
         {
+            voice3.Play();
             //launch second talking animation
             //lauch second audio
             //at the end of audio, stop talking animation
@@ -83,6 +111,7 @@ public class mainScript : MonoBehaviour
 
     public void thirdLevel()
     {
+        voice4.Play();
         //launch talking animation
         //lauch audio
         //lauch UI explaining the level
@@ -94,10 +123,23 @@ public class mainScript : MonoBehaviour
 
     public void Ending()
     {
+        voice5.Play();
         //launch talking animation
         //lauch audio
         //lauch UI explaining the level
         //at the end of audio, stop talking animation
         cake.SetActive(true);
+    }
+
+    IEnumerator Talking(AudioSource audio)
+    {
+        audio.Play();
+        while (audio.isPlaying)
+        {
+            Debug.Log(audio.isPlaying);
+            anim.SetBool("isTalking",true);
+        }
+        anim.SetBool("isTalking", false);
+        yield return null;
     }
 }
