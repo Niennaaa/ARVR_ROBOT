@@ -14,6 +14,7 @@ public class mainScript : MonoBehaviour
     public GameObject bookshelf1;
     public GameObject bookshelf2;
     public GameObject desiredHat;
+    public GameObject head;
     public GameObject cake;
 
     public AudioSource voice1;
@@ -27,7 +28,7 @@ public class mainScript : MonoBehaviour
     private bool dialog4Said = false;
     private bool dialog5Said = false;
 
-    public Animator anim;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +39,9 @@ public class mainScript : MonoBehaviour
         voice4.GetComponent<AudioSource>();
         voice5.GetComponent<AudioSource>();
         anim = gameObject.GetComponent<Animator>();
-        Debug.Log(anim);
+        UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor socket = this.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor>();
+        head.GetComponent<lookForTheRightHat>();
+
     }
 
     // Update is called once per frame
@@ -82,7 +85,7 @@ public class mainScript : MonoBehaviour
         
     }
 
-    public void secondLevel()
+    public void secondLevel() //book 1 & 2
     {
         if (!dialog2Said)
         {
@@ -96,7 +99,11 @@ public class mainScript : MonoBehaviour
 
         if (bookshelf1.GetComponent<allBooksOk>().levelDone)
         {
-            voice3.Play();
+            if (!dialog3Said)
+            {
+                StartCoroutine(Talking(voice3));//launch audio + animation
+                dialog3Said = true;
+            }
             //launch second talking animation
             //lauch second audio
             //at the end of audio, stop talking animation
@@ -109,21 +116,33 @@ public class mainScript : MonoBehaviour
         }
     }
 
-    public void thirdLevel()
+    public void thirdLevel() //hat
     {
-        voice4.Play();
+        if (!dialog4Said)
+        {
+            StartCoroutine(Talking(voice4));//launch audio + animation
+            dialog4Said = true;
+        }
         //launch talking animation
         //lauch audio
         //lauch UI explaining the level
         //at the end of audio, stop talking animation
+        if (head.GetComponent<lookForTheRightHat>().levelDone)
+        {
+            victory = true;
+            level3 = false;
+        }
 
-        
 
     }
 
     public void Ending()
     {
-        voice5.Play();
+        if (!dialog5Said)
+        {
+            StartCoroutine(Talking(voice5));//launch audio + animation
+            dialog5Said = true;
+        }
         //launch talking animation
         //lauch audio
         //lauch UI explaining the level
@@ -134,12 +153,9 @@ public class mainScript : MonoBehaviour
     IEnumerator Talking(AudioSource audio)
     {
         audio.Play();
-        while (audio.isPlaying)
-        {
-            Debug.Log(audio.isPlaying);
-            anim.SetBool("isTalking",true);
-        }
+        anim.SetBool("isTalking",true);
+        yield return new WaitForSeconds(audio.clip.length);
         anim.SetBool("isTalking", false);
-        yield return null;
+        
     }
 }
