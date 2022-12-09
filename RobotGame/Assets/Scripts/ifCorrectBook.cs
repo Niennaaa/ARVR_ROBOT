@@ -14,7 +14,7 @@ public class ifCorrectBook : MonoBehaviour
     public bool correctTag = false;
     private bool addedAOneYet = false;
     public GameObject shelf;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +40,7 @@ public class ifCorrectBook : MonoBehaviour
         theBook = other;
         if (other.gameObject.tag == lookingForThisTag)
         {
+            
             this.GetComponent<UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor>().interactableHoverMeshMaterial = lightMaterial;
             correctTag = true;
         }

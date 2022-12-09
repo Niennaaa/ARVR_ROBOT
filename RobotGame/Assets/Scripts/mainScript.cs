@@ -14,7 +14,7 @@ public class mainScript : MonoBehaviour
     public GameObject bookshelf1;
     public GameObject bookshelf2;
     public GameObject desiredHat;
-    public GameObject head;
+    public GameObject kyleHead;
     public GameObject cake;
 
     public AudioSource voice1;
@@ -28,6 +28,10 @@ public class mainScript : MonoBehaviour
     private bool dialog4Said = false;
     private bool dialog5Said = false;
     public GameObject welcomeCanva;
+    public GameObject instructionsCanva;
+    public GameObject textCanva;
+    public GameObject secondLevelBookshelf;
+    public GameObject debugsound;
 
     private Animator anim;
 
@@ -39,9 +43,15 @@ public class mainScript : MonoBehaviour
         voice3.GetComponent<AudioSource>();
         voice4.GetComponent<AudioSource>();
         voice5.GetComponent<AudioSource>();
+        bookshelf1.GetComponent<allBooksOk>();
+        bookshelf2.GetComponent<allBooksOk>();
         anim = gameObject.GetComponent<Animator>();
         UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor socket = this.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor>();
-        head.GetComponent<lookForTheRightHat>();
+        kyleHead.GetComponent<lookForTheRightHat>();
+        textCanva.GetComponent<TMPro.TextMeshProUGUI>();
+
+        debugsound.GetComponent<AudioSource>();
+
 
     }
 
@@ -49,25 +59,34 @@ public class mainScript : MonoBehaviour
     void Update()
     {
 
-        if (welcomeCanva.activeInHierarchy == false) //the player clicked the start button
+        if (gameHasStarted == true) //the player clicked the start button
         {
-            gameHasStarted = true; 
+            
+            instructionsCanva.SetActive(true);
+            
         }
 
         if ((level1)&&(gameHasStarted))
         {
+            debugsound.GetComponent<AudioSource>().Play();
             firstLevel();
         }
         if (level2)
         {
+            debugsound.GetComponent<AudioSource>().Play();
+            textCanva.GetComponent<TMPro.TextMeshProUGUI>().text = "Human, arrange the bookshelf colorwise";
             secondLevel();
         }
         if (level3)
         {
+            debugsound.GetComponent<AudioSource>().Play();
+            textCanva.GetComponent<TMPro.TextMeshProUGUI>().text = "Human, take a sombrero from the hat chest and put it on my head";
             thirdLevel();
         }
         if (victory)
         {
+            debugsound.GetComponent<AudioSource>().Play();
+            textCanva.GetComponent<TMPro.TextMeshProUGUI>().text = "Human, you did good. Have this cake !";
             Ending();
         }
 
@@ -103,8 +122,12 @@ public class mainScript : MonoBehaviour
         //lauch UI explaining the level
         //at the end of audio, stop talking animation
 
+
         if (bookshelf1.GetComponent<allBooksOk>().levelDone)
         {
+            textCanva.GetComponent<TMPro.TextMeshProUGUI>().text = "Human, arrange the second bookshelf also colorwise";
+            debugsound.GetComponent<AudioSource>().Play();
+            secondLevelBookshelf.SetActive(true);
             if (!dialog3Said)
             {
                 StartCoroutine(Talking(voice3));//launch audio + animation
@@ -133,7 +156,7 @@ public class mainScript : MonoBehaviour
         //lauch audio
         //lauch UI explaining the level
         //at the end of audio, stop talking animation
-        if (head.GetComponent<lookForTheRightHat>().levelDone)
+        if (kyleHead.GetComponent<lookForTheRightHat>().levelDone)
         {
             victory = true;
             level3 = false;
@@ -154,6 +177,11 @@ public class mainScript : MonoBehaviour
         //lauch UI explaining the level
         //at the end of audio, stop talking animation
         cake.SetActive(true);
+    }
+
+    public void startGame()
+    {
+        gameHasStarted = true;
     }
 
     IEnumerator Talking(AudioSource audio)
