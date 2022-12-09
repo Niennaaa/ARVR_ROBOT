@@ -68,7 +68,7 @@ public class mainScript : MonoBehaviour
 
         if ((level1)&&(gameHasStarted))
         {
-            debugsound.GetComponent<AudioSource>().Play();
+            
             firstLevel();
         }
         if (level2)
@@ -156,8 +156,11 @@ public class mainScript : MonoBehaviour
         //lauch audio
         //lauch UI explaining the level
         //at the end of audio, stop talking animation
+        Debug.Log("third level playing");
         if (kyleHead.GetComponent<lookForTheRightHat>().levelDone)
+
         {
+            Debug.Log("end of third level");
             victory = true;
             level3 = false;
         }

@@ -25,6 +25,10 @@ public class lookForTheRightHat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (aHatIsOn)
+        {
+            Debug.Log("a hat is on");
+        }
         if ((aHatIsOn) && (correctHat))
         {
             levelDone = true;
@@ -34,8 +38,9 @@ public class lookForTheRightHat : MonoBehaviour
     private void OnTriggerEnter(Collider other) //if this is the right book, the color get lighter
     {
         hat = other.gameObject;
-        if (hat == desiredHat)
+        if (hat.tag == "correctHat")
         {
+            Debug.Log("good hat");
             correctHat = true;
         }
         else
