@@ -10,9 +10,8 @@ public class ifCorrectBook : MonoBehaviour
     public Material fadeMaterial;
     //static bool aBookIsOn = false; //this is dealt with the event part in the socket in unity
     public bool correctTag = false;
-    public Collider theBook;
     private bool addedAOneYet = false;
-
+    public GameObject shelf;
     
 
     // Start is called before the first frame update
@@ -54,19 +53,19 @@ public class ifCorrectBook : MonoBehaviour
 
         if((correctTag)&&(aBookIsOn)&&(!addedAOneYet))
         {
-            this.GetComponent<allBooksOk>().AllBooksAreGood += 1;
+            shelf.GetComponent<allBooksOk>().AllBooksAreGood += 1;
             addedAOneYet = true;
             Debug.Log("1ere sortie");
         }
         if ((correctTag) && (m_aBookIsOn) && (!addedAOneYet))
         {
-            this.GetComponent<allBooksOk>().AllBooksAreGood += 1;
+            shelf.GetComponent<allBooksOk>().AllBooksAreGood += 1;
             addedAOneYet = true;
             Debug.Log("1ere sortie");
         }
         if ((addedAOneYet)&& (!correctTag) && (!m_aBookIsOn)) //this happen only if the book is removed
         {
-            this.GetComponent<allBooksOk>().AllBooksAreGood -= 1;
+            shelf.GetComponent<allBooksOk>().AllBooksAreGood -= 1;
             addedAOneYet = false;
         }
     }

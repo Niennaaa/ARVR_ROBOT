@@ -27,6 +27,7 @@ public class mainScript : MonoBehaviour
     private bool dialog3Said = false;
     private bool dialog4Said = false;
     private bool dialog5Said = false;
+    public GameObject welcomeCanva;
 
     private Animator anim;
 
@@ -47,6 +48,11 @@ public class mainScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (welcomeCanva.activeInHierarchy == false) //the player clicked the start button
+        {
+            gameHasStarted = true; 
+        }
 
         if ((level1)&&(gameHasStarted))
         {
