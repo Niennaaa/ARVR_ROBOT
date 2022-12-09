@@ -9,6 +9,8 @@ public class ifCorrectBook : MonoBehaviour
     public Material lightMaterial;
     public Material fadeMaterial;
     //static bool aBookIsOn = false; //this is dealt with the event part in the socket in unity
+
+    private Collider theBook;
     public bool correctTag = false;
     private bool addedAOneYet = false;
     public GameObject shelf;
